@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Rts.Sim</AssemblyName>
+    <RootNamespace>Rts.Sim</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Rts.Sim.Tests" />
+  </ItemGroup>
+</Project>

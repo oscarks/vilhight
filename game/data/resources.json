@@ -1,0 +1,10 @@
+{
+  "resources": [
+    { "id": "food", "category": "basic", "storage": "stock", "renewable": true },
+    { "id": "wood", "category": "basic", "storage": "stock", "renewable": true },
+    { "id": "knowledge", "category": "abstract", "storage": "stock" },
+    { "id": "ore", "category": "raw_hidden", "storage": "stock",
+      "revealedBy": "tech_mining", "extractedBy": "mine", "depletes": true },
+    { "id": "metal", "category": "refined", "storage": "stock" }
+  ]
+}

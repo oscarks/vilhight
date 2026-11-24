@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/SimHost.cs" id="1_host"]
+[ext_resource type="Script" path="res://scripts/IsoGrid.cs" id="2_grid"]
+[ext_resource type="Script" path="res://scripts/CameraRig.cs" id="3_cam"]
+[ext_resource type="Script" path="res://scripts/HudTick.cs" id="4_hud"]
+[ext_resource type="Script" path="res://scripts/SmokeRun.cs" id="5_smoke"]
+
+[node name="Main" type="Node2D"]
+
+[node name="SimHost" type="Node" parent="."]
+unique_name_in_owner = true
+process_priority = -100
+script = ExtResource("1_host")
+
+[node name="IsoGrid" type="Node2D" parent="."]
+script = ExtResource("2_grid")
+
+[node name="CameraRig" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 512)
+script = ExtResource("3_cam")
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="HudTick" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 8.0
+offset_top = 8.0
+script = ExtResource("4_hud")
+
+[node name="SmokeRun" type="Node" parent="."]
+script = ExtResource("5_smoke")

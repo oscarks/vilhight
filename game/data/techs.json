@@ -1,0 +1,20 @@
+{
+  "techs": [
+    { "id": "tech_mining", "tier": 1, "cost": { "knowledge": 50 }, "researchTicks": 600, "requires": [],
+      "effects": [
+        { "type": "revealResource", "resource": "ore" },
+        { "type": "unlockBuilding", "building": "mine" } ] },
+    { "id": "tech_smelting", "tier": 2, "cost": { "knowledge": 120, "ore": 50 }, "researchTicks": 900,
+      "requires": ["tech_mining"],
+      "effects": [
+        { "type": "unlockBuilding", "building": "smelter" },
+        { "type": "unlockRecipe", "recipe": "smelt_metal" },
+        { "type": "raiseGatherCap", "resource": "wood", "percent": 25 } ] },
+    { "id": "tech_agriculture", "tier": 1, "cost": { "knowledge": 40 }, "researchTicks": 500, "requires": [],
+      "effects": [
+        { "type": "raiseGatherCap", "resource": "food", "percent": 20 } ] },
+    { "id": "tech_forestry", "tier": 1, "cost": { "knowledge": 40 }, "researchTicks": 500, "requires": [],
+      "effects": [
+        { "type": "raiseGatherCap", "resource": "wood", "percent": 15 } ] }
+  ]
+}

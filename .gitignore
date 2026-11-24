@@ -1,0 +1,17 @@
+.harness-db/
+.harness-output/
+.claude/skills/session-branchs/state/
+.claude/skills/session-branchs/log.md
+
+# Godot
+.godot/
+.import/
+
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+
+# Exportação
+build/

@@ -1,0 +1,63 @@
+{
+  "product": "RTS isométrico (Godot 4 + C#) — planeta com vários países, árvore de tecnologia livre, doutrina por país",
+  "sketch": "RTS estilo Warcraft/StarCraft; o jogador alterna entre países de um planeta (até 8, 3 espécies), recursos mudam com o conhecimento; fases: planeta → sistema estelar → galáxia multiplayer persistente.",
+  "roles": [
+    "Product Owner",
+    "Architect",
+    "Business Analyst",
+    "Stakeholder"
+  ],
+  "status": "finalized",
+  "startedAt": "2026-11-17T20:30:00-03:00",
+  "updatedAt": "2026-11-17T23:00:00-03:00",
+  "aspects": {
+    "market_research": {
+      "status": "pending",
+      "summary": "",
+      "doc": "docs/inception/Market_Research.md",
+      "updatedAt": null
+    },
+    "product_discovery": {
+      "status": "pending",
+      "summary": "",
+      "doc": "docs/inception/Product_Definition.md",
+      "updatedAt": null
+    },
+    "risk": {
+      "status": "approved",
+      "summary": "17 riscos (V/U/F/B); topo: escopo solo (25), diferencial divertido?, IA genérica, abandono (20). Decididos: determinismo obrigatório; conflitos MVP/Depois rebaixados; fatia vertical aprovada como base do escopo.",
+      "doc": "docs/inception/Risk_Analysis.md",
+      "updatedAt": "2026-11-17T21:10:00-03:00"
+    },
+    "scope": {
+      "status": "approved",
+      "summary": "Fase 1 = fatia vertical (marcos 0–8): 2–3 países, 1 espécie, IA por doutrina, troca de controle, 1 cadeia oculta, só incursões; sem névoa/anexação. Saída: testes + playtest. 5 fases; 14 módulos.",
+      "doc": "docs/inception/Scope_and_Phasing.md",
+      "updatedAt": "2026-11-17T21:30:00-03:00"
+    },
+    "requirements": {
+      "status": "approved",
+      "summary": "Fase 1: ~50 RF + 8 RNF (Requirements.md); backlog com 9 épicos e 48 histórias com ACs, dependências e estimativas S–XL; gate de playtest.",
+      "doc": "docs/inception/Backlog.md",
+      "updatedAt": "2026-11-17T22:00:00-03:00"
+    },
+    "architecture": {
+      "status": "approved",
+      "summary": "Sim C# pura determinística + apresentação Godot; 8 ADRs (001–005 Accepted, 006–008 Proposed: entidades, pathfinding, IA planejadora). Stack já fixada no CLAUDE.md.",
+      "doc": "docs/inception/Architecture_Overview.md",
+      "updatedAt": "2026-11-17T22:30:00-03:00"
+    },
+    "stack": {
+      "status": "pending",
+      "summary": "",
+      "doc": "docs/inception/Tech_Stack.md",
+      "updatedAt": null
+    }
+  },
+  "objective": "Validar e recortar o MVP a partir de docs/design.md; foco em riscos, escopo da Fase 1 e backlog",
+  "context": "Projeto pessoal/estudo (sem foco comercial; mercado/negócio leves)",
+  "sources": [
+    "docs/inception/sources/design.md"
+  ],
+  "finalizedAt": "2026-11-17T23:00:00-03:00"
+}

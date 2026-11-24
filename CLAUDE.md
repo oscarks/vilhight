@@ -21,7 +21,7 @@ Antes de implementar qualquer sistema, leia a seção correspondente. Se o códi
 
 ## 3. Stack
 
-- Godot 4.x, edição **.NET** (C#), com .NET 8.
+- Godot **4.7.2**, edição **.NET** (C#), com .NET 8 (versão fixada em `Godot.NET.Sdk/4.7.2`).
 - Linux como ambiente de desenvolvimento.
 - Testes: xUnit.
 - Dados: JSON em `game/data/`.
@@ -35,20 +35,34 @@ Antes de implementar qualquer sistema, leia a seção correspondente. Se o códi
 ├─ Rts.sln
 ├─ docs/
 │  ├─ design.md            # documento de design (fonte da verdade)
-│  ├─ specs/               # uma spec por sistema, escrita antes do código
-│  ├─ adr/                 # decisões de arquitetura (0001-titulo.md)
-│  └─ progress.md          # log curto do que foi feito por sessão
+│  ├─ inception/           # definição do produto (escopo, backlog, riscos); manifesto inception.json
+│  ├─ features/            # uma pasta por feature: Proposal_/AI-SPEC_/Review_ (harness)
+│  ├─ architecture/adr/    # decisões de arquitetura (ADR-001_titulo.md)
+│  ├─ history.md           # log de atividade (START/END), lido pelo Harness Studio
+│  └─ followups/           # pendências (INDEX.md), via /followup
 ├─ src/
+│  ├─ Directory.Build.props      # Nullable, TreatWarningsAsErrors etc. (Sim e Sim.Tests)
+│  ├─ Directory.Packages.props   # versões centrais de pacotes
 │  ├─ Sim/                 # Rts.Sim.csproj — simulação em C# puro, SEM referência ao Godot
+│  │  ├─ Core/             # Fixed, SimRandom, ids, hash, fila de comandos, Simulation
+│  │  ├─ Commands/         # Command, registro, codec
+│  │  ├─ Control/          # IController, HumanController, AiController, ControllerSet
+│  │  ├─ State/            # GameState → Universe → StarSystem → World → Country
+│  │  ├─ Data/             # DataLoader, validador, DataSet, registries
+│  │  ├─ Hosting/          # TickClock, SimLoop (ponte de tempo para o host)
+│  │  └─ Systems/          # um sistema por pasta (hoje só ISimSystem)
 │  └─ Sim.Tests/           # Rts.Sim.Tests.csproj — xUnit, roda headless
-├─ game/                   # projeto Godot (project.godot, Rts.Game.csproj → referencia Sim)
-│  ├─ data/                # JSON: resources, recipes, techs, buildings, units, species, agendas...
+├─ game/                   # projeto Godot (Rts.Game.csproj → referencia Sim)
+│  ├─ project.godot, Rts.Game.csproj, Rts.Game.sln, export_presets.cfg
+│  ├─ data/                # JSON: hoje resources.json e techs.json (demais, nos próximos épicos)
 │  ├─ scenes/
 │  ├─ scripts/             # apresentação: lê o estado da Sim e desenha; nenhuma regra de jogo
-│  └─ assets/
+│  └─ assets/              # (planejado; ainda não existe)
+├─ build/                  # saída da exportação (ignorada pelo git)
 └─ tools/
-   ├─ blender/             # scripts bpy: modelos low-poly → sprites isométricos em 8 direções
-   └─ DataValidator/       # CLI que valida game/data/ (opcional, pode reusar a Sim)
+   ├─ smoke/               # godot_smoke.sh, export_smoke.sh (smoke headless e do build exportado)
+   ├─ blender/             # (planejado) scripts bpy: modelos low-poly → sprites isométricos em 8 direções
+   └─ DataValidator/       # (planejado) CLI que valida game/data/ (opcional, pode reusar a Sim)
 ```
 
 ## 5. Regras de arquitetura (obrigatórias)
@@ -56,7 +70,7 @@ Antes de implementar qualquer sistema, leia a seção correspondente. Se o códi
 ### 5.1 Separação Sim / apresentação
 - `src/Sim` **não referencia Godot**. Nada de `Node`, `Vector2`, `GD.Print`, `res://`.
 - A apresentação (`game/scripts`) só: envia comandos, lê o estado e reage a eventos. Nenhuma regra de jogo fica nela.
-- A Sim recebe o caminho da pasta de dados como string; o Godot passa `ProjectSettings.GlobalizePath("res://data")`.
+- A Sim não lê arquivos do Godot. Ela aceita o caminho de uma pasta (`DataLoader.Load`, usado por testes e ferramentas) ou o texto dos arquivos (`DataLoader.Parse(RawData)`). O jogo lê `res://data` com `FileAccess` e passa o texto (ADR-009).
 
 ### 5.2 Loop e comandos
 - Simulação em ticks fixos: **20 ticks/s**. A renderização interpola.
@@ -115,56 +129,63 @@ Teste obrigatório: mesma semente + mesmos comandos ⇒ mesmo hash de estado.
 
 ## 7. Comandos
 
-Ajuste `GODOT` para o binário local (ex.: `~/bin/Godot_v4.x-stable_mono_linux.x86_64`).
+Ajuste `GODOT` para o binário local do Godot 4.7.2 mono (ex.: `~/bin/godot4`).
+
+Pré-requisito da exportação: export templates mono **4.7.2.stable** em `~/.local/share/godot/export_templates/4.7.2.stable.mono/` (precisa de `linux_debug.x86_64` e `linux_release.x86_64`).
 
 ```bash
 dotnet build Rts.sln                                  # compila tudo
 dotnet test src/Sim.Tests                             # testes da simulação (headless)
 dotnet format Rts.sln                                 # formatação
+dotnet format Rts.sln --verify-no-changes             # só verifica (código de saída 0 = limpo)
 $GODOT --headless --path game --build-solutions --quit   # compila o projeto Godot
 $GODOT --path game                                    # roda o jogo
+bash tools/smoke/godot_smoke.sh 60                    # smoke headless de 60 s (exige GODOT; saída `SMOKE result=PASS ...`)
+bash tools/smoke/export_smoke.sh 10                   # exporta (Linux) e roda o smoke de 10 s no executável (exige GODOT e templates)
 ```
 
 Na exportação do Godot, inclua `data/*.json` no filtro de arquivos não-recurso.
 
-## 8. Fluxo de trabalho (SDD)
+## 8. Fluxo de trabalho (Harness Platform / Spection Flow)
 
-Para **cada sistema**, nesta ordem, uma etapa por vez:
+Metodologia: **Spection Flow** (Spec-Driven Development), executado pelas skills do Harness Platform. A **inception está concluída** (`docs/inception/`): o escopo da Fase 1, o backlog (épicos E0–E8) e os ADRs vêm dela. Onde o design e a inception divergirem, **vale a inception**.
 
-1. **Ler** a seção do sistema em `docs/design.md`.
-2. **Escrever a spec** em `docs/specs/<nn>-<sistema>.md`: objetivo, interfaces públicas, estruturas de dados, formato JSON, casos de teste, critérios de aceite (copiados do design), fora de escopo.
-3. **Parar e pedir aprovação** da spec.
-4. **Escrever os testes** (devem falhar).
-5. **Implementar** até os testes passarem.
-6. **Apresentação mínima** no Godot, se o sistema for visível.
-7. `dotnet build`, `dotnet test`, `dotnet format` sem erros.
-8. Atualizar `docs/progress.md` (3–5 linhas) e fazer commit.
+Para **cada feature** (um épico do `docs/inception/Backlog.md`; seeds em `docs/features/<Feature>/Proposal_<Feature>.md`), uma etapa por vez, ou tudo com `/pipeline <Feature>`:
+
+1. **Ler** a seção do sistema em `docs/design.md`, o épico no Backlog e os ADRs relacionados.
+2. **`/proposal <Feature>`**: expande o seed. Em feature pequena, a proposta pode ser enxuta.
+3. **`/ai-spec <Feature>`**: gera `docs/features/<Feature>/AI-SPEC_<Feature>_Phase_N.md` com interfaces públicas, estruturas de dados, formato JSON, casos de teste, critérios de aceite (copiados do design e do Backlog) e fora de escopo. **Parar e pedir aprovação** da spec.
+4. **`/implement <AI-SPEC>`**: **testes primeiro** (devem falhar), depois a implementação até passarem, depois a apresentação mínima no Godot, se o sistema for visível. Esta ordem é regra do projeto, mesmo que a skill não a imponha.
+5. `dotnet build`, `dotnet test`, `dotnet format` sem erros.
+6. **`/review <AI-SPEC>`**: confere a implementação contra a spec e a Definição de pronto.
+7. Registrar em `docs/history.md` (START ao iniciar, END ao concluir, com o tempo gasto; ver `PROJECT.md`). Pendências vão para `/followup`. Commit só quando o usuário pedir.
 
 Regras:
-- Itens marcados **[Depois]** no design não entram até o marco correspondente.
-- Uma decisão de arquitetura nova vira ADR em `docs/adr/`.
+- Itens marcados **[Depois]** no design não entram até o marco correspondente. Os itens rebaixados na inception (`docs/inception/Risk_Analysis.md` §8) também ficam fora.
+- Uma decisão de arquitetura nova vira ADR em `docs/architecture/adr/`.
 - Ambiguidade no design → pergunte; não invente regra de jogo.
 - Não instale pacotes NuGet sem justificar e perguntar.
+- Nome de feature: o mesmo em `docs/features/`, no slug do pipeline e nos follow-ups (ver `PROJECT.md`).
 
 ### Definição de pronto
 - Testes da spec passando, incluindo determinismo quando o sistema toca a Sim.
 - Nenhum `float`, `System.Random` ou id de conteúdo fixo dentro de `src/Sim`.
 - Dados novos validados pelo carregador.
-- `progress.md` atualizado.
+- `docs/history.md` atualizado, com o tempo real gasto (alimenta o gate G-3 da Fase 1).
 
 ## 9. Roteiro
 
 ### Marco 0 — Fundação (começar aqui)
-- [ ] Criar `Rts.sln`, `src/Sim`, `src/Sim.Tests`, projeto Godot .NET em `game/` referenciando `Sim`.
-- [ ] `.gitignore` para Godot (`.godot/`, `.import/`, `bin/`, `obj/`, `*.user`).
-- [ ] `Fixed` (ponto fixo) com operações básicas e testes.
-- [ ] `SimRandom` com semente e testes de reprodutibilidade.
-- [ ] `GameState` com a hierarquia Universe → StarSystem → World → Country.
-- [ ] `Command`, fila de comandos por tick, `Simulation.Step`.
-- [ ] `IController`, `HumanController`, `AiController` (vazio por enquanto).
-- [ ] Hash de estado + teste de determinismo.
-- [ ] Carregador e validador de JSON para `resources.json` e `techs.json` com 3–5 itens de exemplo.
-- [ ] Cena Godot com grade isométrica de placeholder, câmera (bordas, WASD, arrasto, zoom) e um tick visível.
+- [x] Criar `Rts.sln`, `src/Sim`, `src/Sim.Tests`, projeto Godot .NET em `game/` referenciando `Sim`.
+- [x] `.gitignore` para Godot (`.godot/`, `.import/`, `bin/`, `obj/`, `*.user`).
+- [x] `Fixed` (ponto fixo) com operações básicas e testes.
+- [x] `SimRandom` com semente e testes de reprodutibilidade.
+- [x] `GameState` com a hierarquia Universe → StarSystem → World → Country.
+- [x] `Command`, fila de comandos por tick, `Simulation.Step`.
+- [x] `IController`, `HumanController`, `AiController` (vazio por enquanto).
+- [x] Hash de estado + teste de determinismo.
+- [x] Carregador e validador de JSON para `resources.json` e `techs.json` com 3–5 itens de exemplo.
+- [x] Cena Godot com grade isométrica de placeholder, câmera e um tick visível. Entregue na E0: grade, WASD + zoom e HUD com tick (smoke automatizado PASS; DD-06); bordas, arrasto e limites ficam no E1-4. Inspeção visual (MAN-01) feita e aprovada em 2026-11-24.
 
 **Critério de saída do Marco 0:** `dotnet test` verde, incluindo determinismo; o jogo abre e mostra o mapa isométrico rodando a Sim a 20 ticks/s.
 
