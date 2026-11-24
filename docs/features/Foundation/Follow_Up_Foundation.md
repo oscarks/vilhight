@@ -121,3 +121,23 @@
 - **suggested_action**: Antes do commit, rodar `git status --short` e `git check-ignore build/linux/Rts.x86_64 game/.godot`.
 - **definition_of_done**: Commit sem artefatos de build.
 - **resolution**: 2026-11-24 — verificado após o commit 28cdd30: git ls-files não contém build/, game/.godot/, bin/ nem obj/; game/Rts.Game.sln e os 8 *.cs.uid estão versionados; git check-ignore confirma build/ e game/.godot.
+
+### FUP-foundation-13 — Teste intermitente `TickClockTests.Advance_DoesNotAllocate` (UT-BE-156)
+- **type**: bug · **severity**: P2 · **status**: OPEN
+- **origin**: descoberto ao tratar FUP-foundation-06 (2026-11-24); não vem de review.
+- **description**: O teste mede `GC.GetAllocatedBytesForCurrentThread` em 10.000 chamadas de `TickClock.Advance` e exige 0 bytes. Falha de vez em quando: 1 em 10 execuções com o refactor do `DataCompiler` e 1 em 25 no commit `76a1654`, sem o refactor. Não é regressão do refactor e o código do `TickClock` não foi tocado. Causa não confirmada (hipóteses: compilação em camadas/JIT durante a medição, execução paralela de outras classes de teste, ou alocação real e rara no caminho).
+- **evidence**: `src/Sim.Tests/Hosting/TickClockTests.cs:139` (UT-BE-156); `src/Sim/Hosting/TickClock.cs`. Reprodução: `for i in $(seq 1 25); do dotnet test src/Sim.Tests --no-build; done`.
+- **impact**: Um teste instável tira a confiança do CI e esconde alocações reais. CLAUDE.md §5.6 exige zero alocação por tick em laços quentes.
+- **suggested_action**: Reproduzir com mais execuções e isolar a causa (rodar o teste sozinho, desligar a compilação em camadas com `TieredCompilation=false` ou `TieredPGO=0` só no teste, aumentar o aquecimento). Se for alocação real, corrigir o `TickClock`; se for ruído de medição, estabilizar o teste (aquecimento maior, medição repetida pegando o mínimo). Conferir os outros testes de alocação (`CycleAllocationTests`, `AllocationTests`).
+- **definition_of_done**: 100 execuções seguidas de `dotnet test src/Sim.Tests` sem falha.
+- **references**: AI-SPEC_Foundation_Phase_4.md (UT-BE-156); CLAUDE.md §5.6.
+
+### FUP-foundation-14 — Aplicar os rebaixamentos D2–D7 ao `docs/design.md`
+- **type**: gap-doc · **severity**: P2 · **status**: OPEN
+- **origin**: descoberto ao tratar FUP-foundation-04 (2026-11-24); decisões da inception em `Risk_Analysis.md` §8.
+- **description**: O FUP-04 aplicou só a D1 (determinismo `[Depois]` → `[MVP]`). Os itens D2–D7 foram rebaixados para `[Depois]` na inception, mas o design ainda os marca como `[MVP]`: efeitos de estabilidade nas agendas, recompensa em Legado, cota estratégica (cristal), tipos de dano/armadura/elevação nas batalhas por parâmetros, batalhas entre jogadores na fase 3 e o marco "primeira união de países". Quem ler o design vê escopo de Fase 1 maior que o aprovado.
+- **evidence**: `docs/inception/Risk_Analysis.md` §8 (tabela D2–D7); `docs/design.md`.
+- **impact**: Divergência entre o design (fonte da verdade, CLAUDE.md §1) e a inception, que prevalece (CLAUDE.md §8). Risco de uma proposta futura implementar item já rebaixado.
+- **suggested_action**: Para cada D2–D7, localizar o trecho em `docs/design.md`, trocar a marcação por `[Depois]` e acrescentar nota curta com a referência à decisão. Depois conferir a consistência com `Scope_and_Phasing.md`.
+- **definition_of_done**: `docs/design.md` sem item `[MVP]` que dependa de sistema `[Depois]` listado em `Risk_Analysis.md` §8.
+- **references**: `Risk_Analysis.md` §8; FUP-foundation-04.

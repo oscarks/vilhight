@@ -7,7 +7,7 @@
 - **Sev.**: `P0` (bloqueia) · `P1` (dívida relevante) · `P2` (consistência) · `P3` (nice-to-have)
 - **Status**: `OPEN → TRIAGED → IN_PROGRESS → RESOLVED | WONTFIX | PROMOTED`
 
-**Contadores** — Total: 12 · Abertos: 3 · Encerrados: 9 · **P0 abertos: 0** · Atualizado: 2026-11-24
+**Contadores** — Total: 14 · Abertos: 5 · Encerrados: 9 · **P0 abertos: 0** · Atualizado: 2026-11-24
 
 | ID | Título | Feature | Tipo | Sev. | Status | Owner | Origem | Doc | Criado | Atualizado |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -23,3 +23,5 @@
 | FUP-foundation-10 | Build a frio do Godot não repetido na review | Foundation | unverified-ca | P3 | RESOLVED | Oscar Konno Sampaio | Review_Phase_4 m-01 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-10 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-11 | Reavaliar CommandQueue.Enqueue (O(n)) em E2/E7 | Foundation | tech-debt | P3 | OPEN | Oscar Konno Sampaio | Review_Phase_2 O-02 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-11 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-12 | Conferir ignores antes do primeiro commit da feature | Foundation | known-issue | P3 | RESOLVED | Oscar Konno Sampaio | Review_Final F-12 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-12 | 2026-11-24 | 2026-11-24 |
+| FUP-foundation-13 | Teste intermitente TickClockTests.Advance_DoesNotAllocate (UT-BE-156) | Foundation | bug | P2 | OPEN | Oscar Konno Sampaio | descoberto ao tratar FUP-foundation-06 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-13 | 2026-11-24 | 2026-11-24 |
+| FUP-foundation-14 | Aplicar os rebaixamentos D2–D7 ao design.md | Foundation | gap-doc | P2 | OPEN | Oscar Konno Sampaio | descoberto ao tratar FUP-foundation-04 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-14 | 2026-11-24 | 2026-11-24 |

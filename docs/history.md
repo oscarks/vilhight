@@ -1,3 +1,5 @@
+[2026-11-24 11:09 END]   Follow-up: Foundation — registrados FUP-foundation-13 (teste intermitente UT-BE-156, P2, falha ~1 em 10–25 execuções, também sem o refactor do DataCompiler) e FUP-foundation-14 (aplicar D2–D7 ao design.md, P2). Total 14, abertos 5.
+
 [2026-11-24 11:07 END]   Follow-up: Foundation FUP-06 — DataCompiler.cs (1308 linhas) dividido em 7 arquivos partial (<=293 linhas cada), sem mudança de comportamento. Build 0 avisos, 196 testes verdes, format limpo, smoke 10 PASS (hash100=8913928992633490408). Tempo real: ~1 min.
 
 [2026-11-24 11:06 START] Follow-up: Foundation FUP-06 (dividir DataCompiler.cs por etapa, refactor mecânico).
