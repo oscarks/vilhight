@@ -73,7 +73,7 @@ public partial class SimHost : Node
                 Data = DataLoader.Parse(ResDataReader.Read(DataResPath));
             }
         }
-        catch (DataValidationException ex)
+        catch (System.Exception ex) when (ex is DataValidationException or System.IO.IOException or System.UnauthorizedAccessException)
         {
             LoadError = ex.Message;
             GD.PushError(ex.Message);

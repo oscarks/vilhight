@@ -23,6 +23,7 @@ public sealed class GameSetupValidationTests
 
     private static GameSetup G(PlayerSetup[] players, params StarSystemSetup[] systems) => new(1, players, systems);
 
+    // UT-BE-54
     [Fact]
     public void Create_CountryLimit()
     {
@@ -56,6 +57,7 @@ public sealed class GameSetupValidationTests
         };
     }
 
+    // UT-BE-55
     [Theory]
     [MemberData(nameof(DuplicateCases))]
     public void Create_RejectsDuplicateIds(GameSetup setup, GameSetupError expected)
@@ -66,6 +68,7 @@ public sealed class GameSetupValidationTests
         Assert.StartsWith(expected + ":", ex.Message);
     }
 
+    // UT-BE-56
     [Fact]
     public void Create_RejectsInvalidController()
     {
@@ -99,6 +102,7 @@ public sealed class GameSetupValidationTests
         yield return new object[] { G(new[] { P(1) }, S(1, 9)), 0, GameSetupError.UnknownStarSystemOwner };
     }
 
+    // UT-BE-57
     [Theory]
     [MemberData(nameof(OtherCases))]
     public void Create_RejectsOtherInvalidSetups(GameSetup setup, int resourceCount, GameSetupError expected)
@@ -106,6 +110,7 @@ public sealed class GameSetupValidationTests
         Assert.Equal(expected, Fails(setup, resourceCount).Error);
     }
 
+    // UT-BE-57
     [Fact]
     public void Create_AcceptsMaxLengthName_AndRejectsNulls()
     {
@@ -117,6 +122,7 @@ public sealed class GameSetupValidationTests
             () => GameState.Create(SetupFactory.WithCountries(new CountrySetup(new CountryId(1), null!, new ControllerRef(ControllerKind.Ai, new PlayerId(1)))), 0));
     }
 
+    // UT-BE-58
     [Fact]
     public void Create_ValidationOrderIsDeterministic()
     {

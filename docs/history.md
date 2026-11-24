@@ -1,3 +1,10 @@
+[2026-11-24 11:06 START] Follow-up: Foundation FUP-06 (dividir DataCompiler.cs por etapa, refactor mecânico).
+
+[2026-11-24 11:03 END]   Follow-ups: Foundation FUP-02, FUP-08, FUP-07 — (02) orçamentos medidos em Release, projeto descartável fora do repo: 10^6 multiplicações de Fixed 4,83 ms (<20 ms OK); 10^6 NextU64 3,7 ms (<10 ms OK); Simulation.Step vazio ~0,00004 ms/tick (<0,1 ms OK); ComputeHash ~0,0011 ms (<0,05 ms OK). (08) SimHost._Ready agora captura também IOException e UnauthorizedAccessException de DataLoader.Load (DirectoryNotFoundException já cabe em IOException); antes do fix, resources.json ilegível dava exceção não tratada e smoke NO_OUTPUT (timeout 124); depois, DATA_ERROR e código 2. Pasta inexistente já dava DATA_ERROR antes, pois DataLoader trata arquivo ausente como erro de validação. (07) comentários // UT-BE-NN em 8 arquivos de teste da Fase 1, só comentários. 196 testes verdes, build 0 avisos, format limpo, smoke 10 PASS. Tempo real: ~4 min.
+[2026-11-24 10:59 START] Follow-ups: Foundation FUP-02, FUP-08, FUP-07 (medição, SimHost, comentários UT-BE).
+
+[2026-11-24 10:59 START] Follow-ups: Foundation — /resolve-followup auto (FUP-foundation-02, 03, 04, 07, 08, 12 autônomos; 06 e 10 escalonados; 05, 09, 11 ficam abertos por dependerem de épicos futuros).
+
 [2026-11-24 10:56 END]   Verificação: MAN-01 Foundation — o usuário abriu o jogo (`$GODOT --path game`, runbook Abrir_o_Jogo) e confirmou que funciona. Fecha CA-F4-13 e a parte visual de CA-11/CA-13; FUP-foundation-01 RESOLVED; CLAUDE.md §9 marcado. Observação: a confirmação foi geral ("funcionou"), sem os valores individuais do checklist (taxa, hash).
 
 [2026-11-24 10:19 END]   Pipeline: Foundation — 4 fases (Base, Ciclo, Dados, Apresentação) implementadas e revisadas (todas APPROVED_WITH_OBSERVATIONS, 0 CRITICAL/MAJOR); 196 testes verdes; CAs 13/15 PASS e 2 pendentes de inspeção humana (CA-11 visual, CA-13). Follow-ups: 12 itens em docs/followups/INDEX.md (FUP-foundation-01..12). Decisões: ADR-009 Accepted, CLAUDE.md §5.1 atualizado, game/Rts.Game.sln versionado.

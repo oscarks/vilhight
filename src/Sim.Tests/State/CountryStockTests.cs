@@ -8,6 +8,7 @@ namespace Rts.Sim.Tests.State;
 
 public sealed class CountryStockTests
 {
+    // UT-BE-59
     [Fact]
     public void Country_Stock()
     {

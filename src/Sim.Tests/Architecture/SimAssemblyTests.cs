@@ -7,6 +7,7 @@ namespace Rts.Sim.Tests.Architecture;
 
 public sealed class SimAssemblyTests
 {
+    // UT-BE-01
     [Fact]
     public void SimAssembly_DoesNotReferenceGodot()
     {

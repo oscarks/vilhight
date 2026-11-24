@@ -6,6 +6,7 @@ namespace Rts.Sim.Tests.Core;
 
 public sealed class SimRandomTests
 {
+    // UT-BE-30
     [Fact]
     public void Seeding_MatchesSplitMix64()
     {
@@ -30,6 +31,7 @@ public sealed class SimRandomTests
         }
     }
 
+    // UT-BE-31
     [Theory]
     [InlineData(0UL, new[] { 0x99EC5F36CB75F2B4UL, 0xBF6E1F784956452AUL, 0x1A5F849D4933E6E0UL, 0x6AA594F1262D2D2CUL })]
     [InlineData(42UL, new[] { 0x15780B2E0C2EC716UL, 0x6104D9866D113A7EUL, 0xAE17533239E499A1UL, 0xECB8AD4703B360A1UL })]
@@ -43,6 +45,7 @@ public sealed class SimRandomTests
         }
     }
 
+    // UT-BE-32
     [Fact]
     public void SameSeed_SameSequence()
     {
@@ -66,6 +69,7 @@ public sealed class SimRandomTests
         return arr;
     }
 
+    // UT-BE-33
     [Fact]
     public void DifferentSeeds_Diverge()
     {
@@ -79,6 +83,7 @@ public sealed class SimRandomTests
         }
     }
 
+    // UT-BE-34
     [Fact]
     public void NextInt_VectorsAndGuards()
     {
@@ -103,6 +108,7 @@ public sealed class SimRandomTests
         Assert.Equal(before, g.Snapshot());
     }
 
+    // UT-BE-35
     [Fact]
     public void NextInt_DistributionIsExactForSeed42()
     {
@@ -118,6 +124,7 @@ public sealed class SimRandomTests
         Assert.Equal(new[] { 9802, 10053, 10182, 10023, 10038, 9902 }, counts);
     }
 
+    // UT-BE-36
     [Fact]
     public void NextInt_LargeBound()
     {
@@ -127,6 +134,7 @@ public sealed class SimRandomTests
         Assert.Equal(1125130284, r.NextInt(int.MaxValue));
     }
 
+    // UT-BE-37
     [Fact]
     public void NextFixed_InUnitInterval()
     {
@@ -144,6 +152,7 @@ public sealed class SimRandomTests
         }
     }
 
+    // UT-BE-38
     [Fact]
     public void Seed0_IsValid()
     {

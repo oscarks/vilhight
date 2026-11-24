@@ -23,7 +23,7 @@ A simulação é C# puro, separada do Godot, roda em ticks fixos e é toda orien
 - &#91;MVP\] Unidades, construções, recursos, receitas e tecnologias vêm de arquivos JSON validados no carregamento (ver Modelo de dados).
 - &#91;MVP\] Entidade-componente ou ECS leve; meta de 300 a 500 unidades a 60 FPS.
 - &#91;MVP\] Toda ação do jogador vira um comando serializável aplicado num tick. Isso prepara replays e multiplayer.
-- &#91;Depois\] Determinismo para replays, batalhas verificáveis e validação no servidor: ponto fixo, RNG com semente, nada de `float` nem iteração de `Dictionary` com ordem indefinida na simulação.
+- &#91;MVP\] Determinismo para replays, batalhas verificáveis e validação no servidor: ponto fixo, RNG com semente, nada de `float` nem iteração de `Dictionary` com ordem indefinida na simulação. *(Decisão D1 da inception, 2026-11-17: obrigatório desde o início; ver `docs/inception/Risk_Analysis.md` §8. Os rebaixamentos D2–D7 também estão lá e ainda não foram aplicados neste documento.)*
 
 ## Arquitetura: mundos, países e controladores
 

@@ -18,7 +18,7 @@
 - **resolution**: 2026-11-24 — o usuário abriu `$GODOT --path game` (runbook `docs/runbooks/Abrir_o_Jogo.md`) e confirmou que o jogo funciona. Registrado no `docs/history.md`; CLAUDE.md §9 marcado.
 
 ### FUP-foundation-02 — Orçamentos de desempenho informativos nunca medidos
-- **type**: tech-debt · **severity**: P2 · **status**: OPEN
+- **type**: tech-debt · **severity**: P2 · **status**: RESOLVED
 - **origin**: Review_Phase_1 m-01; Review_Phase_2 m-01; Review_Final F-06
 - **description**: Não foram medidos: 10^6 multiplicações de `Fixed` (< 20 ms), 10^6 `NextU64` (< 10 ms), `Step` vazio (< 0,1 ms), `ComputeHash` (< 0,05 ms). Só o carregamento (42 ms) e o E2E de 1000 ticks (11 ms) constam no history.
 - **evidence**: `docs/history.md` (entradas END das fases 1 e 2); proposta §8.
@@ -26,23 +26,29 @@
 - **suggested_action**: Medir uma vez fora de `src/Sim` (teste descartável com `Stopwatch`) e anotar os valores no history.
 - **definition_of_done**: Quatro valores registrados em `docs/history.md`.
 - **references**: AI-SPEC Fase 1 §9.3 e Fase 2 §9.3.
+- **resolution**: 2026-11-24 — medido em Release num projeto descartável (src/Sim intocado): 10^6 multiplicações de Fixed 4,83 ms (< 20 ms); 10^6 NextU64 3,7–3,8 ms (< 10 ms); Step vazio ~0,00004 ms/tick (< 0,1 ms); ComputeHash ~0,0011 ms (< 0,05 ms). Todos cumprem; valores no docs/history.md.
+
 
 ### FUP-foundation-03 — Reconciliar a proposta com as AI-SPECs
-- **type**: gap-doc · **severity**: P2 · **status**: OPEN
+- **type**: gap-doc · **severity**: P2 · **status**: RESOLVED
 - **origin**: Review_Final F-07
 - **description**: `Proposal_Foundation.md` segue com `Status: Proposta`, diz que .NET e Godot não estão instalados (R-01) e mantém APIs superadas pelos DDs aprovados: `Universe.Systems` (código: `StarSystems`), `GameState.Random` público, `Fixed[] Stock` público, `Register(string, Action<…>)`, `TickCompleted`, `ArgumentException` no lugar de `GameSetupException`, `GlobalizePath` na §5.2.
 - **impact**: Quem ler só a proposta vê uma API que não existe.
 - **suggested_action**: Marcar o status como implementado e acrescentar nota "superada pelas AI-SPECs/DDs" com ponteiro, sem reescrever o corpo.
 - **definition_of_done**: Cabeçalho e notas atualizados.
 - **references**: AI-SPEC_Foundation_Phase_1..4 (seções de decisões).
+- **resolution**: 2026-11-24 — nota de reconciliação e status 'Implementado' no cabeçalho de Proposal_Foundation.md, apontando para as AI-SPECs/DDs e o ADR-009 (corpo não reescrito).
+
 
 ### FUP-foundation-04 — `docs/design.md` ainda marca determinismo como `[Depois]`
-- **type**: gap-doc · **severity**: P2 · **status**: OPEN
+- **type**: gap-doc · **severity**: P2 · **status**: RESOLVED
 - **origin**: Review_Final F-08
 - **description**: A decisão D1 da inception tornou o determinismo obrigatório desde o início, mas o design não foi atualizado (a inception prevalece, CLAUDE.md §8).
 - **suggested_action**: Atualizar `docs/design.md` e a cópia em `docs/inception/sources/` com os itens rebaixados D2–D7 e o determinismo `[MVP]`.
 - **definition_of_done**: Design e inception sem divergência.
 - **references**: `docs/inception/Risk_Analysis.md` §8.
+- **resolution**: 2026-11-24 — docs/design.md: determinismo passou de [Depois] para [MVP] (decisão D1 da inception). Os rebaixamentos D2–D7 (Risk_Analysis §8) seguem não aplicados ao design e ficam para decisão; a cópia em docs/inception/sources/ foi mantida como original de partida.
+
 
 ### FUP-foundation-05 — Tratar o `default` do `switch` de `TechEffect` no E8-2
 - **type**: tech-debt · **severity**: P3 · **status**: OPEN
@@ -62,21 +68,25 @@
 - **references**: `src/Sim/Data/DataCompiler.cs`.
 
 ### FUP-foundation-07 — Comentários `// UT-BE-xx` nos testes da Fase 1
-- **type**: tech-debt · **severity**: P3 · **status**: OPEN
+- **type**: tech-debt · **severity**: P3 · **status**: RESOLVED
 - **origin**: Review_Phase_1 m-02; Review_Final F-09
 - **description**: Os testes da Fase 1 (`FixedTests`, `SimRandomTests`, `State/*`) não trazem o id do caso de teste que as Fases 2–4 usam.
 - **suggested_action**: Acrescentar o comentário na primeira linha de cada teste.
 - **definition_of_done**: Rastreio teste→spec uniforme.
 - **references**: AI-SPEC_Foundation_Phase_1.md §11.
+- **resolution**: 2026-11-24 — comentário // UT-BE-NN acima de cada [Fact]/[Theory] (39) nos 8 arquivos de testes da Fase 1; só comentários. FromRatio_Errors→UT-BE-12 e Create_AcceptsMaxLengthName_AndRejectsNulls→UT-BE-57 por conteúdo, não por nome.
+
 
 ### FUP-foundation-08 — Erro de E/S com `--data-dir` escapa do `SimHost`
-- **type**: gap-impl · **severity**: P3 · **status**: OPEN
+- **type**: gap-impl · **severity**: P3 · **status**: RESOLVED
 - **origin**: Review_Final F-11
 - **description**: `SimHost._Ready` só captura `DataValidationException`. Com `--data-dir`, falha de leitura em `DataLoader.Load` (permissão, caminho inválido) vira exceção não tratada em vez de aparecer no HUD. O caminho normal (`res://`) não é afetado.
 - **evidence**: `game/scripts/SimHost.cs`.
 - **suggested_action**: Capturar `IOException`/`UnauthorizedAccessException` e mostrar no HUD (`DATA_ERROR`), com teste no smoke.
 - **definition_of_done**: Smoke com `--data-dir` inválido termina com código 2 e mensagem no HUD.
 - **references**: AI-SPEC Fase 4 E2E-GD-03.
+- **resolution**: 2026-11-24 — SimHost._Ready agora captura também IOException e UnauthorizedAccessException (1 linha em game/scripts/SimHost.cs). Verificado com resources.json ilegível: antes NO_OUTPUT/código 124, depois SMOKE result=DATA_ERROR e código 2.
+
 
 ### FUP-foundation-09 — `DemoSetup` e a fixture de teste coincidem só por convenção
 - **type**: tech-debt · **severity**: P3 · **status**: OPEN
@@ -86,11 +96,13 @@
 - **definition_of_done**: Uma única fonte do setup de demonstração, ou teste que compare os dois.
 
 ### FUP-foundation-10 — Build a frio do Godot não repetido na review
-- **type**: unverified-ca · **severity**: P3 · **status**: OPEN
+- **type**: unverified-ca · **severity**: P3 · **status**: RESOLVED
 - **origin**: Review_Phase_4 m-01
 - **description**: O revisor não repetiu `rm -rf game/.godot && $GODOT --headless --path game --build-solutions --quit` (bloqueio de segurança do ambiente). O implementador relatou o ciclo a frio no history.
 - **suggested_action**: O operador repete o comando e confere as duas DLLs (X-04).
 - **definition_of_done**: Resultado anotado no history.
+- **resolution**: 2026-11-24 — build a frio feito em 2026-11-24: rm -rf game/.godot e $GODOT --headless --path game --build-solutions --quit terminaram com código 0 e geraram game/.godot/mono/temp/bin/Debug/Rts.Game.dll e Rts.Sim.dll; smoke de 10 s PASS depois do rebuild.
+
 
 ### FUP-foundation-11 — Reavaliar `CommandQueue.Enqueue` (O(n)) em E2/E7
 - **type**: tech-debt · **severity**: P3 · **status**: OPEN
@@ -101,8 +113,9 @@
 - **definition_of_done**: Medição registrada; estrutura trocada se necessário.
 
 ### FUP-foundation-12 — Conferir ignores antes do primeiro commit da feature
-- **type**: known-issue · **severity**: P3 · **status**: OPEN
+- **type**: known-issue · **severity**: P3 · **status**: RESOLVED
 - **origin**: Review_Final F-12
 - **description**: Toda a feature está fora do git (branch `chore/install-harness`), de acordo com a regra de commit só quando pedido. `build/` (147 MB) e `game/.godot/` precisam continuar ignorados; `game/Rts.Game.sln` e os `*.cs.uid` devem ser versionados (DD-P4-14, DD-P4-16).
 - **suggested_action**: Antes do commit, rodar `git status --short` e `git check-ignore build/linux/Rts.x86_64 game/.godot`.
 - **definition_of_done**: Commit sem artefatos de build.
+- **resolution**: 2026-11-24 — verificado após o commit 28cdd30: git ls-files não contém build/, game/.godot/, bin/ nem obj/; game/Rts.Game.sln e os 8 *.cs.uid estão versionados; git check-ignore confirma build/ e game/.godot.

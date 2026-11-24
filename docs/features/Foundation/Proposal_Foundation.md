@@ -1,7 +1,9 @@
 # Proposta: Foundation — Fundação da simulação determinística e do projeto
 
 **Data**: 2026-11-18
-**Status**: Proposta
+**Status**: Implementado (2026-11-24)
+
+> **Nota de reconciliação (2026-11-24, FUP-foundation-03).** Esta proposta foi aprovada em 2026-11-22 e implementada em 4 fases. Onde ela diverge do código, **valem as AI-SPECs e suas decisões de design**: `AI-SPEC_Foundation_Phase_1..4.md` (DD-P1-01..07, DD-P2-01..10, DD-P3-01..14, DD-P4-01..16) e o ADR-009. Diferenças principais em relação ao texto abaixo: `Universe.StarSystems` (não `Systems`); `GameState.Random` é `internal` e o estoque do país é só leitura por fora (`GetStock`, `SetStock` interno); `GameState.Create(GameSetup, int resourceCount)` e `Create(GameSetup, DataSet)`; handlers de comando `CommandHandler<T>(GameState, SimContext, T)` que devolvem `CommandRejectReason`; `CommandCodec` por instância; `SimEvents.CompletedTick` (não `TickCompleted`); `GameSetupException` para erro de setup; o relógio de ticks fica em `src/Sim/Hosting` (`TickClock`, `SimLoop`); os dados do jogo são lidos de `res://data` como texto (ADR-009, no lugar de `GlobalizePath`); .NET 8.0.428 e Godot 4.7.2 estão instalados (R-01 resolvido). O corpo desta proposta não foi reescrito.
 **Modulos afetados**: `src/Sim` (Core, Data, State, Control), `src/Sim.Tests`, `game/` (Presentation), `game/data/`, raiz (`Rts.sln`, `.gitignore`)
 **Pre-requisitos**: Inception concluída (Implementado: `docs/inception/`, ADR-001 a ADR-005). **.NET 8 SDK e Godot 4 .NET: Pendente (não instalados neste host, ver R-01).** Nenhum módulo de código existe ainda.
 **Dependencias externas**: .NET 8 SDK; Godot 4.x edição .NET (versão estável exata fixada no E0-1); pacotes NuGet de teste `xunit`, `xunit.runner.visualstudio` e `Microsoft.NET.Test.Sdk` (versões estáveis compatíveis com `net8.0`, fixadas em `Directory.Packages.props`; justificativa na §12 e aprovação no gate desta proposta, conforme CLAUDE.md §8). `System.Text.Json` vem no .NET 8 (sem pacote).

@@ -22,6 +22,7 @@ public sealed class AllocationTests
         return acc;
     }
 
+    // UT-BE-39
     [Fact]
     public void FixedAndRandom_DoNotAllocate()
     {

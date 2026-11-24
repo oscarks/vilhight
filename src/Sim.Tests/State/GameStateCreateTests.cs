@@ -8,6 +8,7 @@ namespace Rts.Sim.Tests.State;
 
 public sealed class GameStateCreateTests
 {
+    // UT-BE-50
     [Fact]
     public void Create_OneSystemThreeCountries()
     {
@@ -35,6 +36,7 @@ public sealed class GameStateCreateTests
         Assert.Same(state.Countries[0], state.Universe.StarSystems[0].Worlds[0].Countries[0]);
     }
 
+    // UT-BE-51
     [Fact]
     public void Create_TwoSystemsTwoPlayers()
     {
@@ -51,6 +53,7 @@ public sealed class GameStateCreateTests
         Assert.Equal(new PlayerId(2), systems[1].Owner);
     }
 
+    // UT-BE-52
     [Fact]
     public void Create_OrdersCanonically()
     {
@@ -103,6 +106,7 @@ public sealed class GameStateCreateTests
         }
     }
 
+    // UT-BE-53
     [Fact]
     public void Find_ReturnsNullForMissing()
     {
@@ -113,6 +117,7 @@ public sealed class GameStateCreateTests
         Assert.Equal("Player Two", state.FindPlayer(new PlayerId(2))!.Name);
     }
 
+    // UT-BE-62
     [Fact]
     public void Create_SeedsRandom()
     {
@@ -124,6 +129,7 @@ public sealed class GameStateCreateTests
         Assert.NotEqual(state.Random.Snapshot(), other.Random.Snapshot());
     }
 
+    // UT-BE-63
     [Fact]
     public void Lookups_DoNotAllocate()
     {

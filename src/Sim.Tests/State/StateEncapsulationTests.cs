@@ -9,6 +9,7 @@ namespace Rts.Sim.Tests.State;
 
 public sealed class StateEncapsulationTests
 {
+    // UT-BE-60
     [Fact]
     public void State_IsReadOnlyForPresentation()
     {
@@ -33,6 +34,7 @@ public sealed class StateEncapsulationTests
             () => ((IList<StarSystem>)state.Universe.StarSystems).Add(state.Universe.StarSystems[0]));
     }
 
+    // UT-BE-61
     [Fact]
     public void Ids_AreStrongAndValueEqual()
     {

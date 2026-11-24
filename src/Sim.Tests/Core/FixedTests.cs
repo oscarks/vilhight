@@ -6,6 +6,7 @@ namespace Rts.Sim.Tests.Core;
 
 public sealed class FixedTests
 {
+    // UT-BE-10
     [Theory]
     [InlineData(0)]
     [InlineData(1)]
@@ -19,6 +20,7 @@ public sealed class FixedTests
         Assert.Equal(v, Fixed.FromInt(v).ToIntFloor());
     }
 
+    // UT-BE-11
     [Fact]
     public void Constants_HaveExpectedRaw()
     {
@@ -30,6 +32,7 @@ public sealed class FixedTests
         Assert.Equal(32, Fixed.FractionBits);
     }
 
+    // UT-BE-12
     [Theory]
     [InlineData(1L, 3L, 1431655765L)]
     [InlineData(-1L, 3L, -1431655765L)]
@@ -41,6 +44,7 @@ public sealed class FixedTests
         Assert.Equal(raw, Fixed.FromRatio(num, den).Raw);
     }
 
+    // UT-BE-12
     [Fact]
     public void FromRatio_Errors()
     {
@@ -48,6 +52,7 @@ public sealed class FixedTests
         Assert.Throws<OverflowException>(() => Fixed.FromRatio(long.MaxValue, 1));
     }
 
+    // UT-BE-13
     [Fact]
     public void ToIntFloor_IsFloor()
     {
@@ -59,6 +64,7 @@ public sealed class FixedTests
         Assert.Equal(int.MaxValue, Fixed.MaxValue.ToIntFloor());
     }
 
+    // UT-BE-14
     [Fact]
     public void AddSubtractNegate()
     {
@@ -71,6 +77,7 @@ public sealed class FixedTests
         Assert.Throws<OverflowException>(() => -Fixed.MinValue);
     }
 
+    // UT-BE-15
     [Fact]
     public void Multiply_RoundsDownAndChecksOverflow()
     {
@@ -83,6 +90,7 @@ public sealed class FixedTests
         Assert.Throws<OverflowException>(() => Fixed.FromInt(46341) * Fixed.FromInt(46341));
     }
 
+    // UT-BE-16
     [Fact]
     public void Divide_TruncatesTowardZeroAndChecks()
     {
@@ -95,6 +103,7 @@ public sealed class FixedTests
         Assert.Throws<OverflowException>(() => Fixed.FromInt(65536) / Fixed.FromRatio(1, 65536));
     }
 
+    // UT-BE-17
     [Fact]
     public void Sqrt_IsFloorOfRoot()
     {
@@ -117,6 +126,7 @@ public sealed class FixedTests
         }
     }
 
+    // UT-BE-18
     [Fact]
     public void AbsMinMaxClamp()
     {
@@ -131,6 +141,7 @@ public sealed class FixedTests
         Assert.Throws<ArgumentException>(() => Fixed.Clamp(Fixed.One, Fixed.FromInt(3), Fixed.Zero));
     }
 
+    // UT-BE-19
     [Fact]
     public void Comparison()
     {
@@ -148,6 +159,7 @@ public sealed class FixedTests
         Assert.Equal(new[] { Fixed.FromInt(-1), Fixed.FromInt(2), Fixed.FromInt(3) }, arr);
     }
 
+    // UT-BE-20
     [Theory]
     [InlineData(0L, "0")]
     [InlineData(4294967296L, "1")]
@@ -194,6 +206,7 @@ public sealed class FixedTests
         return acc;
     }
 
+    // UT-BE-21
     [Fact]
     public void Properties_AndGoldenChecksum()
     {
