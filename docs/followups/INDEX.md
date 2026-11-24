@@ -7,7 +7,7 @@
 - **Sev.**: `P0` (bloqueia) · `P1` (dívida relevante) · `P2` (consistência) · `P3` (nice-to-have)
 - **Status**: `OPEN → TRIAGED → IN_PROGRESS → RESOLVED | WONTFIX | PROMOTED`
 
-**Contadores** — Total: 12 · Abertos: 4 · Encerrados: 8 · **P0 abertos: 0** · Atualizado: 2026-11-24
+**Contadores** — Total: 12 · Abertos: 3 · Encerrados: 9 · **P0 abertos: 0** · Atualizado: 2026-11-24
 
 | ID | Título | Feature | Tipo | Sev. | Status | Owner | Origem | Doc | Criado | Atualizado |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -16,7 +16,7 @@
 | FUP-foundation-03 | Reconciliar a proposta com as AI-SPECs | Foundation | gap-doc | P2 | RESOLVED | Oscar Konno Sampaio | Review_Final F-07 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-03 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-04 | design.md ainda marca determinismo como [Depois] | Foundation | gap-doc | P2 | RESOLVED | Oscar Konno Sampaio | Review_Final F-08 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-04 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-05 | Tratar default do switch de TechEffect no E8-2 | Foundation | tech-debt | P3 | OPEN | Oscar Konno Sampaio | Review_Phase_3 m-01 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-05 | 2026-11-24 | 2026-11-24 |
-| FUP-foundation-06 | Dividir DataCompiler.cs por etapa | Foundation | tech-debt | P3 | OPEN | Oscar Konno Sampaio | Review_Phase_3 O-02 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-06 | 2026-11-24 | 2026-11-24 |
+| FUP-foundation-06 | Dividir DataCompiler.cs por etapa | Foundation | tech-debt | P3 | RESOLVED | Oscar Konno Sampaio | Review_Phase_3 O-02 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-06 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-07 | Comentários UT-BE-xx nos testes da Fase 1 | Foundation | tech-debt | P3 | RESOLVED | Oscar Konno Sampaio | Review_Phase_1 m-02 / Final F-09 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-07 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-08 | Erro de E/S com --data-dir escapa do SimHost | Foundation | gap-impl | P3 | RESOLVED | Oscar Konno Sampaio | Review_Final F-11 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-08 | 2026-11-24 | 2026-11-24 |
 | FUP-foundation-09 | DemoSetup e fixture de teste coincidem só por convenção | Foundation | tech-debt | P3 | OPEN | Oscar Konno Sampaio | Review_Final F-10 | docs/features/Foundation/Follow_Up_Foundation.md#fup-foundation-09 | 2026-11-24 | 2026-11-24 |

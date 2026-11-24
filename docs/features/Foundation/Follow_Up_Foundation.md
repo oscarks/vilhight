@@ -60,12 +60,14 @@
 - **references**: AI-SPEC_Foundation_Phase_3.md RN-P3-61, UT-BE-140.
 
 ### FUP-foundation-06 — Dividir `DataCompiler.cs` por etapa
-- **type**: tech-debt · **severity**: P3 · **status**: OPEN
+- **type**: tech-debt · **severity**: P3 · **status**: RESOLVED
 - **origin**: Review_Phase_3 O-02
 - **description**: `DataCompiler.cs` tem 1308 linhas, contra "classes pequenas" (CLAUDE.md §6).
 - **suggested_action**: Dividir por etapa (estrutura, referências, ciclos, alcançabilidade) quando o E5 acrescentar `buildings.json`, `units.json` e `recipes.json`.
 - **definition_of_done**: Arquivos por etapa, testes verdes.
 - **references**: `src/Sim/Data/DataCompiler.cs`.
+- **resolution**: 2026-11-24 — DataCompiler.cs (1308 linhas) dividido em 8 arquivos partial em src/Sim/Data (293, 255, 226, 219, 150, 114, 79 e 63 linhas), só movendo blocos: corpo, mensagens, ordem das checagens e códigos de erro inalterados. Verificado: build 0 avisos, format exit 0, 196 testes, smoke PASS com hash100=8913928992633490408.
+
 
 ### FUP-foundation-07 — Comentários `// UT-BE-xx` nos testes da Fase 1
 - **type**: tech-debt · **severity**: P3 · **status**: RESOLVED
